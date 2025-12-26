@@ -15,7 +15,7 @@
   --popover: 224 71% 4%;
   --popover-foreground: 210 40% 98%;
   
-  --primary: 217 91% 60%;        /* Electric Blue - Technical & Sharp */
+  --primary: 217 92% 59%;        /* Electric Blue - Technical & Precise */
   --primary-foreground: 222 47% 11%;
   
   --secondary: 215 28% 17%;      /* Muted Slate */
@@ -34,7 +34,7 @@
   --input: 215 28% 20%;
   --ring: 217 91% 60%;
 
-  --radius: 0.25rem;             /* Sharp corners for engineering feel */
+  --radius: 0.375rem;            /* Precision-engineered corners */
 
   /* Font Variables */
   --font-sans: 'Inter', sans-serif;

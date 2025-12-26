@@ -36,12 +36,12 @@ function ParticleNetwork(props: any) {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    // Slow rotation
-    ref.current.rotation.x = time * 0.05;
-    ref.current.rotation.y = time * 0.03;
+    // Very slow, deterministic rotation - mechanical, not organic
+    ref.current.rotation.x = time * 0.02;
+    ref.current.rotation.y = time * 0.015;
     
-    // Subtle breathing effect
-    const scale = 1 + Math.sin(time * 0.5) * 0.05;
+    // Extremely subtle scale fluctuation (barely perceptible)
+    const scale = 1 + Math.sin(time * 0.25) * 0.02;
     ref.current.scale.set(scale, scale, scale);
   });
 
@@ -54,7 +54,7 @@ function ParticleNetwork(props: any) {
           size={0.03}
           sizeAttenuation={true}
           depthWrite={false}
-          opacity={0.6}
+          opacity={0.5}
         />
       </Points>
       {/* Add connecting lines visualization if performance allows - simulated here with dense points */}

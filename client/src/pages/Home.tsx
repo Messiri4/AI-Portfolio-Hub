@@ -58,11 +58,10 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm text-primary mb-8 font-mono backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
               SYSTEMS_ONLINE
@@ -118,7 +117,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <Terminal className="text-primary h-6 w-6" />
@@ -154,7 +153,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative"
             >
               {/* Abstract decorative element for "About" */}
@@ -214,7 +213,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
                 >
                   <Link href={`/project/${project.id}`}>
                     <div className="group h-full relative flex flex-col rounded-2xl border border-white/5 bg-card p-1 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 cursor-pointer">
@@ -289,7 +288,7 @@ export default function Home() {
                 initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="bg-card/50 rounded-2xl p-6 border border-white/5"
               >
                 <h3 className="font-mono text-lg font-bold text-primary mb-6 uppercase tracking-wider border-b border-white/5 pb-2">
