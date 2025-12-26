@@ -3,13 +3,13 @@ import { useProjects, useSkills, useSendMessage } from "@/hooks/use-portfolio";
 import { Navbar } from "@/components/Navbar";
 import { NetworkBackground } from "@/components/NetworkBackground";
 import { TechBadge } from "@/components/TechBadge";
-import { SkillsChart3D } from "@/components/SkillsChart3D";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api, type InsertMessage } from "@shared/routes";
 import { ArrowRight, Download, Mail, Github, Linkedin, Terminal, Cpu, Database } from "lucide-react";
 import { Link } from "wouter";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 export default function Home() {
   const { data: projects, isLoading: projectsLoading } = useProjects();
@@ -295,8 +295,31 @@ export default function Home() {
                   {category}
                 </h3>
                 
-                <div className="h-[300px] w-full rounded-lg overflow-hidden bg-secondary/20">
-                  <SkillsChart3D skills={items} />
+                <div className="h-[300px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={items}
+                      layout="vertical"
+                      margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                    >
+                      <XAxis type="number" domain={[0, 100]} hide />
+                      <YAxis 
+                        dataKey="name" 
+                        type="category" 
+                        tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12, fontFamily: 'monospace' }}
+                        width={100}
+                      />
+                      <Tooltip 
+                        contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }}
+                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                      />
+                      <Bar dataKey="proficiency" radius={[0, 4, 4, 0]} barSize={20}>
+                        {items.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill="hsl(var(--primary))" fillOpacity={0.6 + (entry.proficiency || 50)/200} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </motion.div>
             ))}
