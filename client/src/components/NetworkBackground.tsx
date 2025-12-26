@@ -6,13 +6,15 @@ import * as THREE from 'three';
 // Procedural particle generation resembling a neural network
 function ParticleNetwork(props: any) {
   const ref = useRef<THREE.Points>(null!);
+  const pointsRef = useRef<THREE.Points>(null!);
   
   // Create 500 particles
   const count = 500;
   
-  const [positions, sizes] = useMemo(() => {
+  const [positions, sizes, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const sizes = new Float32Array(count);
+    const colors = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {
       // Distribute in a spherical cloud
@@ -28,10 +30,18 @@ function ParticleNetwork(props: any) {
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
       
-      sizes[i] = Math.random() < 0.1 ? 0.3 : 0.1; // Some larger nodes
+      sizes[i] = Math.random() < 0.1 ? 0.3 : 0.1;
+      
+      // Gradient from pink to blue based on position
+      const gradient = (x + 4) / 8; // Normalize to 0-1
+      const pink = [0.91, 0.28, 0.60]; // #ec4899
+      const blue = [0.23, 0.51, 0.96]; // #3b82f6
+      colors[i * 3] = pink[0] + (blue[0] - pink[0]) * gradient;
+      colors[i * 3 + 1] = pink[1] + (blue[1] - pink[1]) * gradient;
+      colors[i * 3 + 2] = pink[2] + (blue[2] - pink[2]) * gradient;
     }
     
-    return [positions, sizes];
+    return [positions, sizes, colors];
   }, []);
 
   useFrame((state) => {
@@ -46,18 +56,18 @@ function ParticleNetwork(props: any) {
   });
 
   return (
-    <group rotation={[0, 0, Math.PI / 4]} {...props}>
-      <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+    <group rotation={[0, 0, Math.PI / 4]} {...props} ref={ref}>
+      <Points positions={positions} stride={3} frustumCulled={false} ref={pointsRef}>
         <PointMaterial
           transparent
-          color="#ec4899"
           size={0.03}
           sizeAttenuation={true}
           depthWrite={false}
           opacity={0.5}
+          vertexColors
         />
       </Points>
-      {/* Add connecting lines visualization if performance allows - simulated here with dense points */}
+      {/* Color gradient added via vertex colors */}
     </group>
   );
 }

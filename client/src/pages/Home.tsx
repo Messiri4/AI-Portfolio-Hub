@@ -68,7 +68,7 @@ export default function Home() {
             </div>
 
             <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-400">Intelligence</span>
+              Engineering <span className="text-gradient-pink-blue">Intelligence</span>
             </h1>
             
             <p className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
@@ -79,7 +79,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a 
                 href="#projects"
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg gradient-pink-blue px-8 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
               >
                 View Technical Work
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

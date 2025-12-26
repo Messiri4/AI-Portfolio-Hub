@@ -24,8 +24,12 @@
   --muted: 215 28% 17%;
   --muted-foreground: 215 20% 65%;
   
-  --accent: 330 81% 60%;         /* Pink accent for data/graphs */
+  --accent: 217 92% 59%;         /* Blue accent for transitions */
   --accent-foreground: 222 47% 11%;
+  
+  /* Gradient colors */
+  --gradient-pink: #ec4899;
+  --gradient-blue: #3b82f6;
   
   --destructive: 0 62% 30%;
   --destructive-foreground: 210 40% 98%;
@@ -63,12 +67,23 @@
 
 /* Custom Utilities for Tech Aesthetic */
 @layer utilities {
+  .gradient-pink-blue {
+    background: linear-gradient(90deg, #ec4899 0%, #3b82f6 100%);
+  }
+  
+  .text-gradient-pink-blue {
+    background: linear-gradient(90deg, #ec4899 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
   .text-glow {
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
   }
   
   .border-glow {
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
   }
 
   .grid-bg {
