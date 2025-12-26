@@ -50,7 +50,7 @@ function ParticleNetwork(props: any) {
       <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
-          color="#3b82f6"
+          color="#ec4899"
           size={0.03}
           sizeAttenuation={true}
           depthWrite={false}

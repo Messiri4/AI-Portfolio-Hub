@@ -68,7 +68,7 @@ export default function Home() {
             </div>
 
             <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Intelligence</span>
+              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-400">Intelligence</span>
             </h1>
             
             <p className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">

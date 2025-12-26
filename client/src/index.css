@@ -15,7 +15,7 @@
   --popover: 224 71% 4%;
   --popover-foreground: 210 40% 98%;
   
-  --primary: 217 92% 59%;        /* Electric Blue - Technical & Precise */
+  --primary: 323 92% 59%;        /* Electric Pink - Technical & Precise */
   --primary-foreground: 222 47% 11%;
   
   --secondary: 215 28% 17%;      /* Muted Slate */
@@ -24,7 +24,7 @@
   --muted: 215 28% 17%;
   --muted-foreground: 215 20% 65%;
   
-  --accent: 199 89% 48%;         /* Cyan accent for data/graphs */
+  --accent: 330 81% 60%;         /* Pink accent for data/graphs */
   --accent-foreground: 222 47% 11%;
   
   --destructive: 0 62% 30%;
@@ -32,7 +32,7 @@
 
   --border: 215 28% 20%;
   --input: 215 28% 20%;
-  --ring: 217 91% 60%;
+  --ring: 323 92% 59%;
 
   --radius: 0.375rem;            /* Precision-engineered corners */
 
