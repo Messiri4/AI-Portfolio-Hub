@@ -392,9 +392,9 @@ export default function Home() {
           </div>
 
           <div className="mt-12 flex justify-center gap-8 text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors"><Github className="h-6 w-6" /></a>
-            <a href="#" className="hover:text-primary transition-colors"><Linkedin className="h-6 w-6" /></a>
-            <a href="#" className="hover:text-primary transition-colors"><Mail className="h-6 w-6" /></a>
+            <a href="https://github.com/Messiri4" className="hover:text-primary transition-colors"><Github className="h-6 w-6" /></a>
+            <a href="https://www.linkedin.com/in/miracle-messiri-5191b5212/" className="hover:text-primary transition-colors"><Linkedin className="h-6 w-6" /></a>
+            <a href="#contact" className="hover:text-primary transition-colors"><Mail className="h-6 w-6" /></a>
           </div>
         </div>
       </section>

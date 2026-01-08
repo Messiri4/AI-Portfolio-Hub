@@ -71,14 +71,36 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getProjects(): Promise<Project[]> {
-    const projects = await db
-      .select()
-      .from(projectsTable)
-      .orderBy(desc(projectsTable.id));
+  // Use raw SQL query to bypass Drizzle mapping issues
+    const result = await pool.query(`
+      SELECT 
+        id, 
+        title, 
+        short_description, 
+        problem_statement, 
+        methodology, 
+        outcome, 
+        tech_stack, 
+        github_url, 
+        demo_url, 
+        image_url, 
+        created_at 
+      FROM projects 
+      ORDER BY id DESC
+    `);
     
-    return projects.map(p => ({
-      ...p,
-      techStack: JSON.parse(p.techStack),
+    return result.rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      shortDescription: row.short_description,
+      problemStatement: row.problem_statement,
+      methodology: row.methodology,
+      outcome: row.outcome,
+      techStack: JSON.parse(row.tech_stack || '[]'),
+      githubUrl: row.github_url,
+      demoUrl: row.demo_url,
+      imageUrl: row.image_url,
+      createdAt: row.created_at,
     }));
   }
 
@@ -92,8 +114,17 @@ export class DatabaseStorage implements IStorage {
     if (!project) return undefined;
     
     return {
-      ...project,
-      techStack: JSON.parse(project.techStack),
+      id: project.id,
+      title: project.title,
+      shortDescription: project.shortDescription,
+      problemStatement: project.problemStatement,
+      methodology: project.methodology,
+      outcome: project.outcome,
+      techStack: JSON.parse(project.techStack || '[]'),
+      githubUrl: project.githubUrl,
+      demoUrl: project.demoUrl,
+      imageUrl: project.imageUrl,
+      createdAt: project.createdAt,
     };
   }
 

@@ -16,7 +16,13 @@ async function importData() {
 
     console.log("Importing data to PostgreSQL...");
 
-    // Import projects
+    // Clear existing data first
+    await pool.query("DELETE FROM projects");
+    await pool.query("DELETE FROM skills");
+    await pool.query("DELETE FROM messages");
+    console.log("✓ Cleared existing data");
+
+    // Import projects with proper column mapping
     for (const project of data.projects) {
       await pool.query(
         `INSERT INTO projects (title, short_description, problem_statement, methodology, outcome, tech_stack, github_url, demo_url, image_url, created_at)
@@ -33,6 +39,7 @@ async function importData() {
           project.image_url,
         ]
       );
+      console.log(`  ✓ Imported project: ${project.title}`);
     }
     console.log(`✓ Imported ${data.projects.length} projects`);
 
@@ -54,7 +61,7 @@ async function importData() {
     }
     console.log(`✓ Imported ${data.messages.length} messages`);
 
-    console.log("\n🎉 Data migration completed successfully!");
+    console.log("\n🎉 Data restoration completed successfully!");
   } catch (error) {
     console.error("❌ Error importing data:", error);
   } finally {

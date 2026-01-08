@@ -3,6 +3,9 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function registerRoutes(
   httpServer: Server,
@@ -10,36 +13,18 @@ export async function registerRoutes(
 ): Promise<Server> {
 
   // Projects
- // Helper function to convert snake_case to camelCase
-function toCamelCase(obj: any) {
-  return {
-    id: obj.id,
-    title: obj.title,
-    shortDescription: obj.short_description,
-    problemStatement: obj.problem_statement,
-    methodology: obj.methodology,
-    outcome: obj.outcome,
-    techStack: JSON.parse(obj.tech_stack || "[]"),
-    githubUrl: obj.github_url,
-    demoUrl: obj.demo_url,
-    imageUrl: obj.image_url,
-    createdAt: obj.created_at,
-  };
-}
+  app.get(api.projects.list.path, async (req, res) => {
+    const projects = await storage.getProjects();
+    res.json(projects);
+  });
 
-// Update the GET routes:
-app.get(api.projects.list.path, async (req, res) => {
-  const projects = await storage.getProjects();
-  res.json(projects.map(toCamelCase));
-});
-
-app.get(api.projects.get.path, async (req, res) => {
-  const project = await storage.getProject(Number(req.params.id));
-  if (!project) {
-    return res.status(404).json({ message: 'Project not found' });
-  }
-  res.json(toCamelCase(project));
-});
+  app.get(api.projects.get.path, async (req, res) => {
+    const project = await storage.getProject(Number(req.params.id));
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    res.json(project);
+  });
 
   // Add POST route manually since it might not be in api definitions
   app.post("/api/projects", async (req, res) => {
@@ -69,19 +54,48 @@ app.get(api.projects.get.path, async (req, res) => {
     }
   });
 
-  // Contact
+  // Contact - with Resend email integration
   app.post(api.contact.submit.path, async (req, res) => {
     try {
+      console.log("📧 Received body:", JSON.stringify(req.body, null, 2));
+      
       const input = api.contact.submit.input.parse(req.body);
+      
+      // Save to database
       const message = await storage.createMessage(input);
+      console.log("✅ Message saved to database:", message);
+      
+      // Send email notification
+      try {
+        await resend.emails.send({
+          from: 'Portfolio Contact <onboarding@resend.dev>', // Use verified domain later
+          to: 'messirimiracle9@gmail.com',
+          subject: `New Contact Form Message from ${input.name}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>From:</strong> ${input.name}</p>
+            <p><strong>Email:</strong> ${input.email}</p>
+            <p><strong>Message:</strong></p>
+            <p>${input.message}</p>
+          `,
+        });
+        console.log("✅ Email sent successfully");
+      } catch (emailError) {
+        console.error("⚠️ Email failed to send:", emailError);
+        // Continue anyway - message is saved in database
+      }
+      
       res.status(200).json(message);
     } catch (err) {
       if (err instanceof z.ZodError) {
+        console.error("❌ Validation error:", JSON.stringify(err.errors, null, 2));
         return res.status(400).json({
           message: err.errors[0].message,
           field: err.errors[0].path.join('.'),
+          errors: err.errors,
         });
       }
+      console.error("❌ Unexpected error:", err);
       throw err;
     }
   });
@@ -131,7 +145,7 @@ async function seedDatabase() {
       
       const project3 = await storage.createProject({
         title: "Age & Gender Prediction from Face Images",
-        shortDescription: "A Python-based application that predicts a person’s age and gender from facial images using trained machine learning models and provides a simple interactive demo interface.",
+        shortDescription: "A Python-based application that predicts a person's age and gender from facial images using trained machine learning models and provides a simple interactive demo interface.",
         problemStatement: "Estimating demographic attributes like age and gender from images is useful for analytics and user personalization, but requires a reliable facial analysis system that can process real-world images accurately.",
         methodology: "The system uses a dataset of labeled face images to train separate ML models for age regression and gender classification, then processes new face inputs through those models to output predicted age and gender.",
         outcome: "A functional age and gender prediction pipeline that takes input images, detects faces, and outputs estimated age and gender values, enabling demographic inference from visual data.",
