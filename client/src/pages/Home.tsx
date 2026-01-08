@@ -15,6 +15,11 @@ export default function Home() {
   const { data: projects, isLoading: projectsLoading } = useProjects();
   const { data: skills, isLoading: skillsLoading } = useSkills();
   const { mutate: sendMessage, isPending: isSending } = useSendMessage();
+
+  // ADD THESE THREE LINES RIGHT HERE:
+  //console.log('Projects data:', projects);
+  //console.log('Projects loading:', projectsLoading);
+  //console.log('Projects length:', projects?.length);
   
   const form = useForm<InsertMessage>({
     resolver: zodResolver(api.contact.submit.input),
@@ -72,8 +77,8 @@ export default function Home() {
             </h1>
             
             <p className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
-              Specializing in artificial intelligence, distributed systems, and scalable software architectures. 
-              Bridging the gap between theoretical research and production engineering.
+              Specializing in artificial intelligence, machine learning, and scalable software systems.
+              Bridging the gap between data-driven research and production-ready engineering through reliable, high-performance solutions.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -125,10 +130,9 @@ export default function Home() {
               </div>
               
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I am a software engineer with a strong foundation in computer science and applied mathematics. 
-                My work focuses on building robust AI systems that solve real-world problems with efficiency and precision.
+                I build scalable, production-ready systems that solve real-world problems.
+                My work spans machine learning, computer vision, and end-to-end software development, with a strong focus on performance, reliability, and practical impact.
               </p>
-              
               <p className="text-muted-foreground text-lg leading-relaxed mb-8">
                 Rather than chasing hype, I prioritize fundamental engineering principles: modularity, scalability, and maintainability.
               </p>
@@ -397,7 +401,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-8 text-center text-xs text-muted-foreground font-mono border-t border-white/5">
-        <p>SYSTEM STATUS: OPERATIONAL // © {new Date().getFullYear()} DEV.AI</p>
+        <p>SYSTEM STATUS: OPERATIONAL // © {new Date().getFullYear()} MIRACLE.AI</p>
       </footer>
     </div>
   );

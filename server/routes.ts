@@ -8,24 +8,65 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Projects
-  app.get(api.projects.list.path, async (req, res) => {
-    const projects = await storage.getProjects();
-    res.json(projects);
-  });
 
-  app.get(api.projects.get.path, async (req, res) => {
-    const project = await storage.getProject(Number(req.params.id));
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
+  // Projects
+ // Helper function to convert snake_case to camelCase
+function toCamelCase(obj: any) {
+  return {
+    id: obj.id,
+    title: obj.title,
+    shortDescription: obj.short_description,
+    problemStatement: obj.problem_statement,
+    methodology: obj.methodology,
+    outcome: obj.outcome,
+    techStack: JSON.parse(obj.tech_stack || "[]"),
+    githubUrl: obj.github_url,
+    demoUrl: obj.demo_url,
+    imageUrl: obj.image_url,
+    createdAt: obj.created_at,
+  };
+}
+
+// Update the GET routes:
+app.get(api.projects.list.path, async (req, res) => {
+  const projects = await storage.getProjects();
+  res.json(projects.map(toCamelCase));
+});
+
+app.get(api.projects.get.path, async (req, res) => {
+  const project = await storage.getProject(Number(req.params.id));
+  if (!project) {
+    return res.status(404).json({ message: 'Project not found' });
+  }
+  res.json(toCamelCase(project));
+});
+
+  // Add POST route manually since it might not be in api definitions
+  app.post("/api/projects", async (req, res) => {
+    try {
+      const project = await storage.createProject(req.body);
+      res.status(201).json(project);
+    } catch (err) {
+      console.error("Error creating project:", err);
+      res.status(500).json({ message: "Failed to create project" });
     }
-    res.json(project);
   });
 
   // Skills
   app.get(api.skills.list.path, async (req, res) => {
     const skills = await storage.getSkills();
     res.json(skills);
+  });
+
+  // Add POST route manually
+  app.post("/api/skills", async (req, res) => {
+    try {
+      const skill = await storage.createSkill(req.body);
+      res.status(201).json(skill);
+    } catch (err) {
+      console.error("Error creating skill:", err);
+      res.status(500).json({ message: "Failed to create skill" });
+    }
   });
 
   // Contact
@@ -52,62 +93,95 @@ export async function registerRoutes(
 }
 
 async function seedDatabase() {
-  const existingProjects = await storage.getProjects();
-  if (existingProjects.length === 0) {
-    await storage.createProject({
-      title: "Neural Architecture Search Engine",
-      shortDescription: "Automated ML model optimization system.",
-      problemStatement: "Designing efficient neural network architectures for edge devices manually is time-consuming and suboptimal.",
-      methodology: "Implemented a reinforcement learning agent using PyTorch to traverse the search space of operations. Used weight sharing to reduce training cost by 90%.",
-      outcome: "Achieved 2.5x speedup in inference on Raspberry Pi 4 with <1% accuracy loss compared to ResNet-50.",
-      techStack: ["Python", "PyTorch", "Ray Tune", "Docker"],
-      githubUrl: "https://github.com/example/nas-engine",
-      demoUrl: "https://nas-demo.example.com",
-      imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000",
-    });
-
-    await storage.createProject({
-      title: "Distributed Log Anomaly Detection",
-      shortDescription: "Real-time anomaly detection for microservices.",
-      problemStatement: "Detecting system failures in terabytes of distributed logs in real-time is impossible with rule-based systems.",
-      methodology: "Built a streaming pipeline with Apache Kafka and Flink. Trained a Transformer-based autoencoder on normal log sequences to flag deviations.",
-      outcome: "Reduced MTTR (Mean Time To Resolution) by 40% in a simulated production environment. Handles 50k logs/sec.",
-      techStack: ["Scala", "Apache Flink", "Kafka", "TensorFlow", "Kubernetes"],
-      githubUrl: "https://github.com/example/log-anomaly",
-      demoUrl: null,
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
-    });
+  console.log("🌱 Starting database seed...");
+  
+  try {
+    const existingProjects = await storage.getProjects();
+    console.log(`📊 Found ${existingProjects.length} existing projects`);
     
-    await storage.createProject({
-      title: "Semantic Code Search",
-      shortDescription: "Natural language search for large codebases.",
-      problemStatement: "Developers spend 20% of their time searching for code snippets. Keyword search lacks context.",
-      methodology: "Fine-tuned a CodeBERT model on internal repositories. Indexed embeddings in Milvus vector database for sub-millisecond retrieval.",
-      outcome: "Improved search relevance by 60% compared to Elasticsearch baseline in user study.",
-      techStack: ["Python", "Hugging Face", "Milvus", "FastAPI", "React"],
-      githubUrl: "https://github.com/example/semantic-search",
-      demoUrl: null,
-      imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
-    });
-  }
+    if (existingProjects.length === 0) {
+      console.log("✅ Seeding projects...");
+      
+      // Create projects sequentially and verify each one
+      const project1 = await storage.createProject({
+        title: "Drowiness Detection System",
+        shortDescription: "A real-time computer vision system that detects driver drowsiness using facial landmarks, blink patterns, and head pose analysis to trigger timely alerts.",
+        problemStatement: "Driver fatigue is a major cause of road accidents, and there is a need for an automated system that can detect early signs of drowsiness and warn the driver in real time.",
+        methodology: "The system uses MediaPipe to detect facial landmarks, computes eye aspect ratio for blink detection, estimates head pose for nodding behavior, and triggers an alarm when defined thresholds are exceeded.",
+        outcome: "The project successfully delivers a modular, real-time drowsiness detection pipeline that monitors fatigue indicators and alerts users to improve road safety.",
+        techStack: JSON.stringify(["Python", "MediaPipe", "OpenCV", "Numpy", "PlaySound"]),
+        githubUrl: "https://github.com/Messiri4/drowiness-detector",
+        demoUrl: "https://nas-demo.example.com",
+        imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000",
+      });
+      console.log("✓ Created project 1:", project1?.id);
 
-  const existingSkills = await storage.getSkills();
-  if (existingSkills.length === 0) {
-    const skillsData = [
-      { name: "Python", category: "Languages", proficiency: 95 },
-      { name: "C++", category: "Languages", proficiency: 85 },
-      { name: "TypeScript", category: "Languages", proficiency: 80 },
-      { name: "PyTorch", category: "Machine Learning", proficiency: 90 },
-      { name: "TensorFlow", category: "Machine Learning", proficiency: 85 },
-      { name: "Scikit-learn", category: "Machine Learning", proficiency: 90 },
-      { name: "Docker", category: "Infrastructure", proficiency: 85 },
-      { name: "Kubernetes", category: "Infrastructure", proficiency: 75 },
-      { name: "AWS", category: "Infrastructure", proficiency: 80 },
-      { name: "PostgreSQL", category: "Data", proficiency: 85 },
-    ];
-
-    for (const skill of skillsData) {
-      await storage.createSkill(skill);
+      const project2 = await storage.createProject({
+        title: "Airbnb House Price Predictor",
+        shortDescription: "A decision support system (DSS) that uses data science and machine learning to help Airbnb hosts analyze the 2019 NYC Airbnb dataset and predict optimal listing prices.",
+        problemStatement: "Airbnb hosts need a way to understand pricing dynamics and set competitive prices based on listing features and market patterns to maximize revenue.",
+        methodology: "The project involves cleaning and exploring the 2019 Airbnb NYC dataset, engineering relevant features, training regression models to predict listing prices, and analyzing trends through visualizations.",
+        outcome: "You produce a model that predicts Airbnb listing prices and insights into market influences on price, enabling hosts to make data-informed pricing decisions.",
+        techStack: JSON.stringify(["Python", "Pandas", "NumPy", "Scikit-learn", "Seaborn & Matplotlib"]),
+        githubUrl: "https://github.com/Messiri4/Airbnb_Predictor",
+        demoUrl: null,
+        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
+      });
+      console.log("✓ Created project 2:", project2?.id);
+      
+      const project3 = await storage.createProject({
+        title: "Age & Gender Prediction from Face Images",
+        shortDescription: "A Python-based application that predicts a person’s age and gender from facial images using trained machine learning models and provides a simple interactive demo interface.",
+        problemStatement: "Estimating demographic attributes like age and gender from images is useful for analytics and user personalization, but requires a reliable facial analysis system that can process real-world images accurately.",
+        methodology: "The system uses a dataset of labeled face images to train separate ML models for age regression and gender classification, then processes new face inputs through those models to output predicted age and gender.",
+        outcome: "A functional age and gender prediction pipeline that takes input images, detects faces, and outputs estimated age and gender values, enabling demographic inference from visual data.",
+        techStack: JSON.stringify(["Python", "CNN", "OpenCV", "Flask"]),
+        githubUrl: "https://github.com/Messiri4/age_gender_predictor",
+        demoUrl: null,
+        imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
+      });
+      console.log("✓ Created project 3:", project3?.id);
+      
+      // Verify all projects were created
+      const verifyProjects = await storage.getProjects();
+      console.log(`🔍 Verification: ${verifyProjects.length} projects in database`);
+    } else {
+      console.log("⏭️ Projects already exist, skipping seed");
     }
+
+    const existingSkills = await storage.getSkills();
+    console.log(`📊 Found ${existingSkills.length} existing skills`);
+    
+    if (existingSkills.length === 0) {
+      console.log("✅ Seeding skills...");
+      
+      const skillsData = [
+        { name: "Python", category: "Languages", proficiency: 95 },
+        { name: "C++", category: "Languages", proficiency: 85 },
+        { name: "TypeScript", category: "Languages", proficiency: 80 },
+        { name: "PyTorch", category: "Machine Learning", proficiency: 90 },
+        { name: "TensorFlow", category: "Machine Learning", proficiency: 85 },
+        { name: "Scikit-learn", category: "Machine Learning", proficiency: 90 },
+        { name: "Docker", category: "Infrastructure", proficiency: 85 },
+        { name: "Kubernetes", category: "Infrastructure", proficiency: 75 },
+        { name: "AWS", category: "Infrastructure", proficiency: 80 },
+        { name: "PostgreSQL", category: "Data", proficiency: 85 },
+      ];
+
+      for (const skill of skillsData) {
+        const created = await storage.createSkill(skill);
+        console.log(`✓ Created skill: ${skill.name}`);
+      }
+      
+      const verifySkills = await storage.getSkills();
+      console.log(`🔍 Verification: ${verifySkills.length} skills in database`);
+    } else {
+      console.log("⏭️ Skills already exist, skipping seed");
+    }
+    
+    console.log("🎉 Database seed completed successfully!");
+  } catch (error) {
+    console.error("❌ Error seeding database:", error);
+    throw error;
   }
 }

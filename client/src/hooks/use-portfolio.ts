@@ -12,7 +12,7 @@ export function useProjects() {
     queryFn: async () => {
       const res = await fetch(api.projects.list.path);
       if (!res.ok) throw new Error("Failed to fetch projects");
-      return api.projects.list.responses[200].parse(await res.json());
+      return res.json(); // Backend already handles transformation
     },
   });
 }
@@ -21,15 +21,13 @@ export function useProject(id: number) {
   return useQuery({
     queryKey: [api.projects.get.path, id],
     queryFn: async () => {
-      // Manual URL construction since buildUrl is in shared and might not be directly importable 
-      // depending on build setup, but we'll try to use the path directly if possible
       const url = api.projects.get.path.replace(":id", String(id));
       const res = await fetch(url);
       if (!res.ok) {
         if (res.status === 404) return null;
         throw new Error("Failed to fetch project");
       }
-      return api.projects.get.responses[200].parse(await res.json());
+      return res.json(); // Backend already handles transformation
     },
     enabled: !!id,
   });

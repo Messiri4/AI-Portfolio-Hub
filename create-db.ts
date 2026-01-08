@@ -1,20 +1,8 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
-// import * as schema from "@shared/schema"; // COMMENT THIS OUT
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
+const db = new Database("./dev.db");
 
-const sqlite = new Database("./dev.db");
-
-// Create tables if they don't exist
-sqlite.exec(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -26,7 +14,7 @@ sqlite.exec(`
     github_url TEXT,
     demo_url TEXT,
     image_url TEXT,
-    created_at INTEGER
+    created_at INTEGER DEFAULT (unixepoch())
   );
 
   CREATE TABLE IF NOT EXISTS skills (
@@ -41,8 +29,9 @@ sqlite.exec(`
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     message TEXT NOT NULL,
-    created_at INTEGER
+    created_at INTEGER DEFAULT (unixepoch())
   );
 `);
 
-export const db = drizzle(sqlite); // Remove { schema } for now
+console.log("Database created successfully!");
+db.close();

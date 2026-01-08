@@ -1,0 +1,142 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Drowiness Detection System",
+      "short_description": "A real-time computer vision system that detects driver drowsiness using facial landmarks, blink patterns, and head pose analysis to trigger timely alerts.",
+      "problem_statement": "Driver fatigue is a major cause of road accidents, and there is a need for an automated system that can detect early signs of drowsiness and warn the driver in real time.",
+      "methodology": "The system uses MediaPipe to detect facial landmarks, computes eye aspect ratio for blink detection, estimates head pose for nodding behavior, and triggers an alarm when defined thresholds are exceeded.",
+      "outcome": "The project successfully delivers a modular, real-time drowsiness detection pipeline that monitors fatigue indicators and alerts users to improve road safety.",
+      "tech_stack": "[\"Python\",\"MediaPipe\",\"OpenCV\",\"Numpy\",\"PlaySound\"]",
+      "github_url": "https://github.com/Messiri4/drowiness-detector",
+      "demo_url": "https://nas-demo.example.com",
+      "image_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000",
+      "created_at": 1767225771641
+    },
+    {
+      "id": 2,
+      "title": "Airbnb House Price Predictor",
+      "short_description": "A decision support system (DSS) that uses data science and machine learning to help Airbnb hosts analyze the 2019 NYC Airbnb dataset and predict optimal listing prices.",
+      "problem_statement": "Airbnb hosts need a way to understand pricing dynamics and set competitive prices based on listing features and market patterns to maximize revenue.",
+      "methodology": "The project involves cleaning and exploring the 2019 Airbnb NYC dataset, engineering relevant features, training regression models to predict listing prices, and analyzing trends through visualizations.",
+      "outcome": "You produce a model that predicts Airbnb listing prices and insights into market influences on price, enabling hosts to make data-informed pricing decisions.",
+      "tech_stack": "[\"Python\",\"Pandas\",\"NumPy\",\"Scikit-learn\",\"Seaborn & Matplotlib\"]",
+      "github_url": "https://github.com/Messiri4/Airbnb_Predictor",
+      "demo_url": null,
+      "image_url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
+      "created_at": 1767225771648
+    },
+    {
+      "id": 3,
+      "title": "Age & Gender Prediction from Face Images",
+      "short_description": "A Python-based application that predicts a person’s age and gender from facial images using trained machine learning models and provides a simple interactive demo interface.",
+      "problem_statement": "Estimating demographic attributes like age and gender from images is useful for analytics and user personalization, but requires a reliable facial analysis system that can process real-world images accurately.",
+      "methodology": "The system uses a dataset of labeled face images to train separate ML models for age regression and gender classification, then processes new face inputs through those models to output predicted age and gender.",
+      "outcome": "A functional age and gender prediction pipeline that takes input images, detects faces, and outputs estimated age and gender values, enabling demographic inference from visual data.",
+      "tech_stack": "[\"Python\",\"CNN\",\"OpenCV\",\"Flask\"]",
+      "github_url": "https://github.com/Messiri4/age_gender_predictor",
+      "demo_url": null,
+      "image_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
+      "created_at": 1767225771655
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "Python",
+      "category": "Languages",
+      "proficiency": 95
+    },
+    {
+      "id": 2,
+      "name": "C++",
+      "category": "Languages",
+      "proficiency": 85
+    },
+    {
+      "id": 3,
+      "name": "TypeScript",
+      "category": "Languages",
+      "proficiency": 80
+    },
+    {
+      "id": 4,
+      "name": "PyTorch",
+      "category": "Machine Learning",
+      "proficiency": 90
+    },
+    {
+      "id": 5,
+      "name": "TensorFlow",
+      "category": "Machine Learning",
+      "proficiency": 85
+    },
+    {
+      "id": 6,
+      "name": "Scikit-learn",
+      "category": "Machine Learning",
+      "proficiency": 90
+    },
+    {
+      "id": 7,
+      "name": "Docker",
+      "category": "Infrastructure",
+      "proficiency": 85
+    },
+    {
+      "id": 8,
+      "name": "Kubernetes",
+      "category": "Infrastructure",
+      "proficiency": 75
+    },
+    {
+      "id": 9,
+      "name": "AWS",
+      "category": "Infrastructure",
+      "proficiency": 80
+    },
+    {
+      "id": 10,
+      "name": "PostgreSQL",
+      "category": "Data",
+      "proficiency": 85
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "name": "MIRACLE MESSIRI",
+      "email": "messirimiracle9@gmail.com",
+      "message": "hi",
+      "created_at": 1767759193860
+    },
+    {
+      "id": 2,
+      "name": "MIRACLE MESSIRI",
+      "email": "messirimiracle9@gmail.com",
+      "message": "hi",
+      "created_at": 1767759307790
+    },
+    {
+      "id": 3,
+      "name": "MIRACLE MESSIRI",
+      "email": "messirimiracle9@gmail.com",
+      "message": "hi",
+      "created_at": 1767760177972
+    },
+    {
+      "id": 4,
+      "name": "MIRACLE MESSIRI",
+      "email": "messirimiracle9@gmail.com",
+      "message": "hi",
+      "created_at": 1767760179294
+    },
+    {
+      "id": 5,
+      "name": "MIRACLE MESSIRI",
+      "email": "messirimiracle9@gmail.com",
+      "message": "hi",
+      "created_at": 1767760180175
+    }
+  ]
+}

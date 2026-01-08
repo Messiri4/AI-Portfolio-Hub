@@ -21,7 +21,7 @@ export function Navbar() {
               <Terminal size={18} />
             </div>
             <span className="font-display text-lg font-bold tracking-tight text-foreground">
-              DEV<span className="text-primary">.AI</span>
+              MIRACLE<span className="text-primary">.AI</span>
             </span>
           </div>
         </Link>

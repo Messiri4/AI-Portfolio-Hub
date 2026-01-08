@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertProjectSchema, insertSkillSchema, insertMessageSchema, projects, skills, messages } from './schema';
+import { insertProjectSchema, insertSkillSchema, insertMessageSchema } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -14,20 +14,49 @@ export const errorSchemas = {
   }),
 };
 
+const projectSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  shortDescription: z.string(),
+  problemStatement: z.string(),
+  methodology: z.string(),
+  outcome: z.string(),
+  techStack: z.string(),
+  githubUrl: z.string().nullable(),
+  demoUrl: z.string().nullable(),
+  imageUrl: z.string().nullable(),
+  createdAt: z.string().nullable(),
+});
+
+const skillSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  category: z.string(),
+  proficiency: z.number().nullable(),
+});
+
+const messageSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  message: z.string(),
+  createdAt: z.string().nullable(),
+});
+
 export const api = {
   projects: {
     list: {
       method: 'GET' as const,
       path: '/api/projects',
       responses: {
-        200: z.array(z.custom<typeof projects.$inferSelect>()),
+        200: z.array(projectSchema),
       },
     },
     get: {
       method: 'GET' as const,
       path: '/api/projects/:id',
       responses: {
-        200: z.custom<typeof projects.$inferSelect>(),
+        200: projectSchema,
         404: errorSchemas.notFound,
       },
     },
@@ -37,7 +66,7 @@ export const api = {
       method: 'GET' as const,
       path: '/api/skills',
       responses: {
-        200: z.array(z.custom<typeof skills.$inferSelect>()),
+        200: z.array(skillSchema),
       },
     },
   },
@@ -47,7 +76,7 @@ export const api = {
       path: '/api/contact',
       input: insertMessageSchema,
       responses: {
-        200: z.custom<typeof messages.$inferSelect>(),
+        200: messageSchema,
         400: errorSchemas.validation,
       },
     },
