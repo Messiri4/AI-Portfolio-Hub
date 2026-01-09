@@ -1,16 +1,17 @@
 {
   "version": 2,
-  "outputDirectory": "dist/public",
   "builds": [
     {
-      "src": "package.json",
+      "src": "dist/index.cjs",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/index.cjs"
+      "dest": "dist/index.cjs"
     }
   ]
 }
+
+
